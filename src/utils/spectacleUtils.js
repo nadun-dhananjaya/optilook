@@ -1,7 +1,7 @@
 export const filterGroupAndSort = (data, filters) => {
   const { shapes, colors, weight, shapeOrder, colorOrder } = filters;
 
-  // Filter based on the criteria
+  // Filter based on criteria
   const filteredData = data.filter((item) => {
     return (
       (!shapes || shapes.includes(item.shape)) &&
@@ -36,32 +36,41 @@ export const filterGroupAndSort = (data, filters) => {
       shapeSection.frames.push(colorSection);
     }
 
-    // Add frame details (name and images) to the color section
+    // Add frame details
     colorSection.details.push({
       name: item.name,
+      weight: item?.weight,
       images: [item.imagePath],
     });
 
     return acc;
   }, []);
 
-  // Custom sort by shape order
+  // Sort groups by shapeOrder
   groupedData.sort((a, b) => {
-    const aIndex = shapeOrder.indexOf(a.title.split(" ")[0].toUpperCase());
-    const bIndex = shapeOrder.indexOf(b.title.split(" ")[0].toUpperCase());
-    return aIndex - bIndex;
+    const nameA = a.title.replace(" FRAMES", "").toUpperCase();
+    const nameB = b.title.replace(" FRAMES", "").toUpperCase();
+    const indexA = shapeOrder.findIndex(
+      (shape) => shape.toUpperCase() === nameA
+    );
+    const indexB = shapeOrder.findIndex(
+      (shape) => shape.toUpperCase() === nameB
+    );
+    return indexA - indexB;
   });
 
-  // Custom sort by color order within each shape group
+  // Sort color sections within each shape group by colorOrder
   groupedData.forEach((shapeGroup) => {
     shapeGroup.frames.sort((a, b) => {
-      const aIndex = colorOrder.indexOf(
-        a.colorName.split(" ")[0].toUpperCase()
+      const nameA = a.colorName.replace(" COLOR", "").toUpperCase();
+      const nameB = b.colorName.replace(" COLOR", "").toUpperCase();
+      const indexA = colorOrder.findIndex(
+        (color) => color.toUpperCase() === nameA
       );
-      const bIndex = colorOrder.indexOf(
-        b.colorName.split(" ")[0].toUpperCase()
+      const indexB = colorOrder.findIndex(
+        (color) => color.toUpperCase() === nameB
       );
-      return aIndex - bIndex;
+      return indexA - indexB;
     });
   });
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Wrapper from "../../layout/wrappers/Wrapper";
 import { FaInfoCircle } from "react-icons/fa";
 import { FaFilter } from "react-icons/fa";
@@ -10,13 +10,14 @@ import { useSelector } from "react-redux";
 
 const EyeGlassPage = () => {
   // Example filters
-  const filters = {
-    shapes: ["Round", "Oval", "Square", "Heart", "Oblong"], // Include specific shapes
-    colors: ["Black", "Gold", "Orange", "Blue", "Pink", "Green"], // Include specific colors
-    // weight: "standard", // Filter by weight
-    shapeOrder: ["ROUND", "SQUARE", "OVAL", "HEART", "OBLONG"], // Custom shape order
-    colorOrder: ["BLACK", "GOLD", "BLUE", "ORANGE", "PINK", "GREEN"], // Custom color order
-  };
+
+  const [filters, setFilters] = useState({
+    shapes: [],
+    colors: [],
+    weight: "standard",
+    shapeOrder: [],
+    colorOrder: [],
+  });
 
   const groupedSpectacles = useSpectacleFilter(spectDataSet, filters);
 
@@ -48,6 +49,54 @@ const EyeGlassPage = () => {
     ageGroupResponse,
     jobCategoryReponse
   );
+
+  useEffect(() => {
+    // shape response
+    if (frameShapeResponse) {
+      const sortFrameShapes = Object.keys(frameShapeResponse).sort(
+        (a, b) => frameShapeResponse[b] - frameShapeResponse[a]
+      );
+      setFilters((prev) => ({
+        ...prev,
+        shapes: sortFrameShapes,
+        shapeOrder: sortFrameShapes,
+        weight: "standard",
+      }));
+    }
+
+    // color response
+    if (frameColorResponse) {
+      const sortFrameColor = Object.keys(frameColorResponse).sort(
+        (a, b) => frameColorResponse[b] - frameColorResponse[a]
+      );
+
+
+      setFilters((prev) => ({
+        ...prev,
+        colors: sortFrameColor,
+        colorOrder: sortFrameColor,
+        weight: "standard",
+      }));
+    }
+
+    // age group response
+    if (ageGroupResponse) {
+      const ageGroupWeightPreference =
+        ageGroupResponse?.probabilities?.weight_preferences;
+      setFilters((prev) => ({
+        ...prev,
+        weight: ageGroupWeightPreference > 50 ? "standard" : "low",
+      }));
+    }
+  }, [
+    frameShapeResponse,
+    frameColorResponse,
+    screenTimeResponse,
+    ageGroupResponse,
+    jobCategoryReponse,
+  ]);
+
+  console.log(groupedSpectacles);
 
   return (
     <Wrapper header={"Eye Glasses"}>

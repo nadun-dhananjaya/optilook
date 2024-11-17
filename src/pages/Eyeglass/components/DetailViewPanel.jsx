@@ -28,6 +28,7 @@ const DetailViewPanel = ({ isOpen, onClose }) => {
     frameColorResponse,
   } = useSelector((state) => state.capture);
 
+  console.log(skinToneMapping[skinToneResponse?.predicted_class]);
   // Update faceShapeData and skinToneData when responses change
   useEffect(() => {
     if (frameShapeResponse) {
@@ -83,7 +84,7 @@ const DetailViewPanel = ({ isOpen, onClose }) => {
             variants={panelVariants} // Apply Framer Motion variants
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
           >
-            <div className="h-[95vh] pe-2 overflow-y-scroll scrollbar scrollbar-thin scrollbar-thumb-teal-500 scrollbar-track-teal-100">
+            <div className="h-[95vh] px-2 overflow-y-scroll scrollbar scrollbar-thin scrollbar-thumb-teal-500 scrollbar-track-teal-100">
               <h1 className="mb-6 text-2xl font-bold text-teal-800">INSIGHT</h1>
 
               {/* Your Face Shape */}
@@ -103,7 +104,7 @@ const DetailViewPanel = ({ isOpen, onClose }) => {
                 </h2>
                 <SkinToneSelector
                   selectedIndex={
-                    skinToneMapping[skinToneResponse?.predicted_class] || null
+                    skinToneMapping[skinToneResponse?.predicted_class]
                   }
                 />
               </div>
