@@ -6,7 +6,5 @@ export const ROUTES = {
 
   FACE_PROFILE: "/face-profile",
 
-  BASIC_DATA: "/basic-data",
-
-  SCREEN_TIME: "/basic-data",
+  EYE_GLASS: "/eye-glass",
 };

@@ -1,7 +1,7 @@
 const Wrapper = ({ header, children }) => {
   return (
     <div className="h-[88vh] md:h-full">
-      <div className="absolute top-0 left-0 flex items-end justify-center w-full h-16 bg-teal-700">
+      <div className="absolute top-0 left-0 flex items-end z-[99999] justify-center w-full h-16 bg-teal-700">
         <span className="pb-2 font-sans text-lg font-bold leading-normal text-center text-white uppercase">
           {header}
         </span>
