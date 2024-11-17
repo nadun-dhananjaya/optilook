@@ -28,7 +28,6 @@ const DetailViewPanel = ({ isOpen, onClose }) => {
     frameColorResponse,
   } = useSelector((state) => state.capture);
 
-  console.log(skinToneMapping[skinToneResponse?.predicted_class]);
   // Update faceShapeData and skinToneData when responses change
   useEffect(() => {
     if (frameShapeResponse) {

@@ -76,8 +76,6 @@ const ScanFacePage = () => {
       dispatch(setSkinToneResponse(skinToneData));
 
       navigate(ROUTES.FACE_PROFILE);
-
-      console.log("Response:", skinToneData);
     } catch (error) {
       console.error("Error uploading file:", error);
     }

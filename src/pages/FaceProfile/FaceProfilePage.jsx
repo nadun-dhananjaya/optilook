@@ -74,8 +74,7 @@ const FaceProfilePage = () => {
       dispatch(setFrameColorResponse(frameColorData));
       navigate(ROUTES.EYE_GLASS);
 
-      console.log("Frame Shape Response:", frameShapeData);
-      console.log("Frame Color Response:", frameColorData);
+    
 
       dispatch(stopLoading());
     } catch (error) {
