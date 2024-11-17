@@ -146,7 +146,7 @@ const EyeGlassPage = () => {
           {jobCategoryReponse &&
             percentageToFloat(
               jobCategoryReponse?.probabilities?.use_uv_blocking
-            ) > 50 && (
+            ) > 30 && (
               <RecommendationCard
                 bgColor="orange"
                 recommendation={jobCategoryReponse?.recommendation}
@@ -157,7 +157,7 @@ const EyeGlassPage = () => {
           {screenTimeResponse &&
             percentageToFloat(
               screenTimeResponse?.probabilities?.use_blue_light_blocking
-            ) > 50 && (
+            ) > 30 && (
               <RecommendationCard
                 bgColor="blue"
                 recommendation={screenTimeResponse?.recommendation}
