@@ -62,7 +62,6 @@ const FilterPanel = ({ isOpen, onClose }) => {
     },
   };
 
-  console.log(screenTime);
   const applyFilter = async () => {
     if (screenTime != "") {
       const screenTimeReqData = {
@@ -82,6 +81,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
       const screenTimeData = await screenTimeResponse.json();
       dispatch(setScreenTimeResponse(screenTimeData));
     }
+
     if (age != "") {
       const ageGroupReqData = {
         age_group: ageGroupMapping[age],
@@ -100,6 +100,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
       const ageGroupData = await ageGroupResponse.json();
       dispatch(setAgeGroupResponse(ageGroupData));
     }
+
     if (job != "") {
       const jobCategoryReqData = {
         job_category: jobCategoryMapping[job],

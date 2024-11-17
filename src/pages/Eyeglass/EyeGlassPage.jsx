@@ -8,9 +8,32 @@ import { spectDataSet } from "../../data/data";
 import { useSpectacleFilter } from "../../hooks/useSpectacleFilter";
 import { useSelector } from "react-redux";
 
-const EyeGlassPage = () => {
-  // Example filters
+// Reusable RecommendationCard Component
+const RecommendationCard = ({ bgColor, recommendation }) => {
+  return (
+    <div
+      className={`p-5 rounded shadow-md mt-4 border-l-4 ${
+        bgColor === "orange"
+          ? "bg-orange-100 border-orange-500"
+          : "bg-blue-100 border-blue-500"
+      }`}
+    >
+      <p
+        className={`font-semibold ${
+          bgColor === "orange" ? "text-orange-800" : "text-blue-800"
+        }`}
+      >
+        {recommendation}
+      </p>
+    </div>
+  );
+};
 
+function percentageToFloat(percentageString) {
+  return parseFloat(percentageString?.replace("%", "")) / 1;
+}
+
+const EyeGlassPage = () => {
   const [filters, setFilters] = useState({
     shapes: [],
     colors: [],
@@ -42,20 +65,12 @@ const EyeGlassPage = () => {
     isLoading,
   } = useSelector((state) => state.capture);
 
-  console.log(
-    frameShapeResponse,
-    frameColorResponse,
-    screenTimeResponse,
-    ageGroupResponse,
-    jobCategoryReponse
-  );
-
   useEffect(() => {
-    // shape response
     if (frameShapeResponse) {
       const sortFrameShapes = Object.keys(frameShapeResponse).sort(
         (a, b) => frameShapeResponse[b] - frameShapeResponse[a]
       );
+
       setFilters((prev) => ({
         ...prev,
         shapes: sortFrameShapes,
@@ -64,12 +79,10 @@ const EyeGlassPage = () => {
       }));
     }
 
-    // color response
     if (frameColorResponse) {
       const sortFrameColor = Object.keys(frameColorResponse).sort(
         (a, b) => frameColorResponse[b] - frameColorResponse[a]
       );
-
 
       setFilters((prev) => ({
         ...prev,
@@ -83,9 +96,11 @@ const EyeGlassPage = () => {
     if (ageGroupResponse) {
       const ageGroupWeightPreference =
         ageGroupResponse?.probabilities?.weight_preferences;
+
       setFilters((prev) => ({
         ...prev,
-        weight: ageGroupWeightPreference > 50 ? "standard" : "low",
+        weight:
+          percentageToFloat(ageGroupWeightPreference) > 50 ? "standard" : "low",
       }));
     }
   }, [
@@ -95,8 +110,6 @@ const EyeGlassPage = () => {
     ageGroupResponse,
     jobCategoryReponse,
   ]);
-
-  console.log(groupedSpectacles);
 
   return (
     <Wrapper header={"Eye Glasses"}>
@@ -126,6 +139,30 @@ const EyeGlassPage = () => {
               <FaFilter color="#006D77" size={22} />
             </button>
           </div>
+        </div>
+
+        <div className="p-6">
+          {/* Job Category Recommendation */}
+          {jobCategoryReponse &&
+            percentageToFloat(
+              jobCategoryReponse?.probabilities?.use_uv_blocking
+            ) > 50 && (
+              <RecommendationCard
+                bgColor="orange"
+                recommendation={jobCategoryReponse?.recommendation}
+              />
+            )}
+
+          {/* Screen Time Recommendation */}
+          {screenTimeResponse &&
+            percentageToFloat(
+              screenTimeResponse?.probabilities?.use_blue_light_blocking
+            ) > 50 && (
+              <RecommendationCard
+                bgColor="blue"
+                recommendation={screenTimeResponse?.recommendation}
+              />
+            )}
         </div>
 
         {/* Frame Data */}
