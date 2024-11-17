@@ -85,8 +85,8 @@ const ScanFacePage = () => {
 
   return (
     <Wrapper header={"Scan Your Face"}>
-      <div className="grid h-full md:h-full p-4 gap-3 grid-rows-[1fr_4rem]">
-        <div className="flex items-center p-2 bg-[#B4CCD1] rounded">
+      <div className="grid h-[90vh] md:h-full p-4 gap-3 grid-rows-[1fr_4rem]">
+        <div className="flex items-center h-[80vh] justify-center p-2 bg-[#B4CCD1] rounded">
           <Webcam
             audio={false}
             ref={webcamRef}

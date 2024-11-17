@@ -9,7 +9,10 @@ const captureSlice = createSlice({
     skinToneResponse: null,
     frameShapeResponse: null,
     frameColorResponse: null,
-    previewURL: null, // For storing the captured image's preview URL
+    screenTimeResponse: null,
+    ageGroupResponse: null,
+    jobCategoryReponse: null,
+    previewURL: null,
   },
   reducers: {
     startLoading(state) {
@@ -33,6 +36,15 @@ const captureSlice = createSlice({
     setFrameColorResponse(state, action) {
       state.frameColorResponse = action.payload;
     },
+    setScreenTimeResponse(state, action) {
+      state.screenTimeResponse = action.payload;
+    },
+    setAgeGroupResponse(state, action) {
+      state.ageGroupResponse = action.payload;
+    },
+    setJobCategoryResponse(state, action) {
+      state.jobCategoryReponse = action.payload;
+    },
     setPreviewURL(state, action) {
       state.previewURL = action.payload; // Store the preview URL
     },
@@ -47,6 +59,9 @@ export const {
   setSkinToneResponse,
   setFrameShapeResponse,
   setFrameColorResponse,
+  setScreenTimeResponse,
+  setAgeGroupResponse,
+  setJobCategoryResponse,
   setPreviewURL,
 } = captureSlice.actions;
 

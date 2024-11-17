@@ -5,8 +5,8 @@ import { ROUTES } from "../../constants/ROUTES";
 
 const SplashPage = () => {
   return (
-    <div className="grid items-center h-full px-4">
-      <img src={OptilookLogo} className="w-40 mx-auto " />
+    <div className="grid items-center px-4 h-[90vh]">
+      <img src={OptilookLogo} className="mx-auto w-72 " />
       <Link to={ROUTES.SCAN_FACE} className="flex justify-center w-full">
         <Button className={"!w-3/4 mx-auto"}>Start</Button>
       </Link>

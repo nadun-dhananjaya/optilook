@@ -33,7 +33,7 @@ const FaceProfilePage = () => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const { previewURL, faceShapeResponse, skinToneResponse, isLoading } =
-    useSelector((state) => state.capture); // Get preview URL from Redux
+    useSelector((state) => state.capture);
 
   const getRecommendations = async () => {
     dispatch(startLoading());
@@ -86,9 +86,9 @@ const FaceProfilePage = () => {
 
   return (
     <Wrapper header={"Your Face Profile"}>
-      <div className="p-4 g ">
-        <div className="flex items-center p-2 mb-3 bg-[#B4CCD1] rounded">
-          <img className="max-h-full rounded" src={previewURL} />
+      <div className="p-4 ">
+        <div className="flex items-center justify-center p-2 mb-3 bg-[#B4CCD1] rounded">
+          <img className="rounded " src={previewURL} />
         </div>
 
         <div>

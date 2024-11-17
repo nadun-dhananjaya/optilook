@@ -4,38 +4,22 @@ import { FaInfoCircle } from "react-icons/fa";
 import { FaFilter } from "react-icons/fa";
 import FilterPanel from "./components/FilterPanel";
 import DetailViewPanel from "./components/DetailViewPanel";
+import { spectDataSet } from "../../data/data";
+import { useSpectacleFilter } from "../../hooks/useSpectacleFilter";
+import { useSelector } from "react-redux";
 
 const EyeGlassPage = () => {
-  const frameData = [
-    {
-      title: "RECTANGULAR FRAMES",
-      colors: [
-        {
-          colorName: "BLACK COLOR",
-          images: ["/path/to/black1.png", "/path/to/black2.png"],
-        },
-        {
-          colorName: "ORANGE COLOR",
-          images: ["/path/to/orange1.png", "/path/to/orange2.png"],
-        },
-      ],
-    },
-    {
-      title: "SQUARE FRAMES",
-      colors: [
-        {
-          colorName: "BLACK COLOR",
-          images: ["/path/to/squareBlack1.png", "/path/to/squareBlack2.png"],
-        },
-        {
-          colorName: "ORANGE COLOR",
-          images: ["/path/to/squareOrange1.png", "/path/to/squareOrange2.png"],
-        },
-      ],
-    },
-  ];
+  // Example filters
+  const filters = {
+    shapes: ["Round", "Oval", "Square", "Heart", "Oblong"], // Include specific shapes
+    colors: ["Black", "Gold", "Orange", "Blue", "Pink", "Green"], // Include specific colors
+    // weight: "standard", // Filter by weight
+    shapeOrder: ["ROUND", "SQUARE", "OVAL", "HEART", "OBLONG"], // Custom shape order
+    colorOrder: ["BLACK", "GOLD", "BLUE", "ORANGE", "PINK", "GREEN"], // Custom color order
+  };
 
-  
+  const groupedSpectacles = useSpectacleFilter(spectDataSet, filters);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const toggleFilter = () => {
@@ -47,6 +31,23 @@ const EyeGlassPage = () => {
   const toggleDetailView = () => {
     setDetailViewOpen(!isDetailViewOpen);
   };
+
+  const {
+    frameShapeResponse,
+    frameColorResponse,
+    screenTimeResponse,
+    ageGroupResponse,
+    jobCategoryReponse,
+    isLoading,
+  } = useSelector((state) => state.capture);
+
+  console.log(
+    frameShapeResponse,
+    frameColorResponse,
+    screenTimeResponse,
+    ageGroupResponse,
+    jobCategoryReponse
+  );
 
   return (
     <Wrapper header={"Eye Glasses"}>
@@ -79,35 +80,42 @@ const EyeGlassPage = () => {
         </div>
 
         {/* Frame Data */}
-        {frameData.map((frame, index) => (
-          <div key={index} className="px-4 mt-4 mb-8">
-            <h2 className="mb-4 text-xl font-bold text-gray-800">
-              {frame.title}
-            </h2>
+        <div className="p-6">
+          {groupedSpectacles.map((shapeGroup) => (
+            <div key={shapeGroup.title} className="mb-8">
+              <h2 className="mb-4 text-lg font-bold text-gray-800">
+                {shapeGroup.title}
+              </h2>
+              {shapeGroup.frames.map((frame) => (
+                <div key={frame.colorName} className="mb-6">
+                  <h3 className="mb-2 font-semibold text-gray-700 text-md bg-[#B4CCD1] px-1.5 py-2">
+                    {frame.colorName}
+                  </h3>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    {frame.details.map((detail) =>
+                      detail.images.map((image, index) => (
+                        <div
+                          key={index}
+                          className="px-4 py-5 text-center bg-white border border-gray-300 rounded-lg shadow"
+                        >
+                          <img
+                            src={image}
+                            alt={detail.name}
+                            className="object-contain w-full h-40"
+                          />
 
-            {frame.colors.map((color, colorIndex) => (
-              <div key={colorIndex} className="mb-6">
-                <h3 className="mb-2 text-lg font-semibold px-1 text-gray-700 bg-[#B4CCD1]">
-                  {color.colorName}
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {color.images.map((image, imageIndex) => (
-                    <div
-                      key={imageIndex}
-                      className="p-2 bg-white border rounded-lg shadow-sm"
-                    >
-                      <img
-                        src={image}
-                        alt={`${frame.title} - ${color.colorName}`}
-                        className="object-contain w-full h-auto"
-                      />
-                    </div>
-                  ))}
+                          <label htmlFor="" className="w-full text-center">
+                            {detail.name}
+                          </label>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </Wrapper>
   );
