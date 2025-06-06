@@ -29,8 +29,8 @@ const ageGroupMapping = {
 const jobCategoryMapping = {
   Student: 1,
   "Office Worker": 2,
-  Driver: 3,
-  "Doctor / Nurse": 4,
+  Driver: 4,
+  "Doctor / Nurse": 3,
 };
 
 const FilterPanel = ({ isOpen, onClose }) => {
@@ -46,6 +46,9 @@ const FilterPanel = ({ isOpen, onClose }) => {
     setAge("");
     setJob("");
     onClose();
+    dispatch(setScreenTimeResponse(null));
+    dispatch(setAgeGroupResponse(null));
+    dispatch(setJobCategoryResponse(null));
   };
 
   // Animation variants for the panel

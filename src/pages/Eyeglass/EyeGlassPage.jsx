@@ -100,7 +100,7 @@ const EyeGlassPage = () => {
       setFilters((prev) => ({
         ...prev,
         weight:
-          percentageToFloat(ageGroupWeightPreference) > 50 ? "standard" : "low",
+          percentageToFloat(ageGroupWeightPreference) > 50 ? "low" : "standard",
       }));
     }
   }, [
@@ -146,7 +146,7 @@ const EyeGlassPage = () => {
           {jobCategoryReponse &&
             percentageToFloat(
               jobCategoryReponse?.probabilities?.use_uv_blocking
-            ) > 30 && (
+            ) > 50 && (
               <RecommendationCard
                 bgColor="orange"
                 recommendation={jobCategoryReponse?.recommendation}
@@ -157,7 +157,7 @@ const EyeGlassPage = () => {
           {screenTimeResponse &&
             percentageToFloat(
               screenTimeResponse?.probabilities?.use_blue_light_blocking
-            ) > 30 && (
+            ) > 40 && (
               <RecommendationCard
                 bgColor="blue"
                 recommendation={screenTimeResponse?.recommendation}
@@ -182,8 +182,11 @@ const EyeGlassPage = () => {
                       detail.images.map((image, index) => (
                         <div
                           key={index}
-                          className="px-4 py-5 text-center bg-white border border-gray-300 rounded-lg shadow"
+                          className="relative px-4 py-5 text-center bg-white border border-gray-300 rounded-lg shadow"
                         >
+                          <div className="absolute top-0 right-0 p-1 bg-teal-500">
+                            {detail?.weight}
+                          </div>
                           <img
                             src={image}
                             alt={detail.name}

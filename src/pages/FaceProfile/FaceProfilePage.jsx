@@ -28,6 +28,7 @@ const faceShapeMapping = {
   Heart: 5,
 };
 
+
 const FaceProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize useNavigate
